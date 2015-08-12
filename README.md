@@ -3,7 +3,7 @@
 Run Nginx, php-fpm and MariaDB using [Docker]
 
 ## Requirements
-Install [Docker] and [Compose]
+Install [Docker] and [Compose] v1.5+
 
 ## Usage
 ```

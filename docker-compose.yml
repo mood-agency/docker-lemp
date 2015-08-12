@@ -17,9 +17,11 @@ db:
   volumes:
     - /var/lib/mysql
   environment:
-    MYSQL_ROOT_PASSWORD: change_this
+    MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    MYSQL_DATABASE: "${MYSQL_DATABASE}"
+    MYSQL_USER: "${MYSQL_USER}"
+    MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
 htdocs:
   image: busybox
-  stdin_open: true
   volumes:
-    - htdocs:/var/www/html
+    - "./htdocs:/var/www/html"
