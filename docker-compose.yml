@@ -8,13 +8,14 @@ nginx:
     - htdocs
 phpfpm:
   build: php-5.6-fpm-custom
+  links:
+    - db
   volumes_from:
     - htdocs
-    - db
 db:
   image: mariadb
   volumes:
-    - /var/run/mysqld
+    - /var/lib/mysql
   environment:
     MYSQL_ROOT_PASSWORD: change_this
 htdocs:
