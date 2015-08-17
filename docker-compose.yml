@@ -3,11 +3,22 @@ nginx:
   links:
     - phpfpm
   ports:
-    - "8080:80"
+    - "${HOST_PORT}:80"
   volumes_from:
     - htdocs
 phpfpm:
   build: php-5.6-fpm-custom
+  environment:
+    DB_NAME: "${DB_NAME}"
+    DB_USER: "${DB_USER}"
+    DB_PASSWORD: "${DB_PASSWORD}"
+    WP_HOME: "http://${HOST_ADDRESS}:${HOST_PORT}"
+    WP_SITEURL: "http://${HOST_ADDRESS}:${HOST_PORT}"
+    WP_TITLE: "${WP_TITLE}"
+    WP_ADMIN_USER: "${WP_ADMIN_USER}"
+    WP_ADMIN_PASSWORD: "${WP_ADMIN_PASSWORD}"
+    WP_ADMIN_EMAIL: "${WP_ADMIN_EMAIL}"
+    WP_INSTALL: "${WP_INSTALL}"
   links:
     - db
   volumes_from:
@@ -18,10 +29,10 @@ db:
     - /var/lib/mysql
   environment:
     MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-    MYSQL_DATABASE: "${MYSQL_DATABASE}"
-    MYSQL_USER: "${MYSQL_USER}"
-    MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    MYSQL_DATABASE: "${DB_NAME}"
+    MYSQL_USER: "${DB_USER}"
+    MYSQL_PASSWORD: "${DB_PASSWORD}"
 htdocs:
   image: busybox
   volumes:
-    - "./htdocs:/var/www/html"
+    - "./www/:/var/www"
