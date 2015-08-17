@@ -41,29 +41,10 @@ for unique in "${UNIQUES[@]}"; do
   fi
 done
 
-TERM=dumb php -- "$DB_HOST" "$DB_USER" "$DB_PASSWORD" "$DB_NAME" <<'EOPHP'
-<?php
-// database might not exist, so let's try connecting to it
-
-$stderr = fopen('php://stderr', 'w');
-
-list($host, $port) = explode(':', $argv[1], 2);
-
-$maxTries = 10;
-do {
-	$mysql = new mysqli($host, $argv[2], $argv[3], '', (int)$port);
-	if ($mysql->connect_error) {
-		fwrite($stderr, "\n" . 'MySQL Connection Error: (' . $mysql->connect_errno . ') ' . $mysql->connect_error . "\n");
-		--$maxTries;
-		if ($maxTries <= 0) {
-			exit(1);
-		}
-		sleep(3);
-	}
-} while ($mysql->connect_error);
-
-$mysql->close();
-EOPHP
+if [ ! $(waitforservices) -eq 0 ]; then
+  echo >&2 'timed out waiting for services'
+  exit 1
+fi
 
 # Install WP
 if [ -z "$WP_INSTALL" ] || [ ! $(wp core is-installed) ]; then

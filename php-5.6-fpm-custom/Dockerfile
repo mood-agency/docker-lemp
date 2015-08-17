@@ -20,6 +20,12 @@ RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
         -o /usr/local/bin/wp \
         && chmod +x  /usr/local/bin/wp
 
+# Install waitforservices
+RUN curl --location --silent --show-error --fail \
+        https://github.com/Barzahlen/waitforservices/releases/download/v0.1/waitforservices \
+        > /usr/local/bin/waitforservices \
+        && chmod +x /usr/local/bin/waitforservices
+
 VOLUME /var/www
 WORKDIR /var/www
 
