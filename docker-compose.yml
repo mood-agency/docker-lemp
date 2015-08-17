@@ -35,4 +35,4 @@ db:
 htdocs:
   image: busybox
   volumes:
-    - "./www/:/var/www"
+    - "./www:/var/www"
