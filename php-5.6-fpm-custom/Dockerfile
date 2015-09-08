@@ -10,8 +10,6 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
         && docker-php-ext-install gd mysqli mcrypt zip
 
-ADD ext-mysqli.ini /usr/local/etc/php/conf.d/ext-mysqli.ini
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
@@ -25,6 +23,9 @@ RUN curl --location --silent --show-error --fail \
         https://github.com/Barzahlen/waitforservices/releases/download/v0.1/waitforservices \
         > /usr/local/bin/waitforservices \
         && chmod +x /usr/local/bin/waitforservices
+
+ADD ext-mysqli.ini /usr/local/etc/php/conf.d/ext-mysqli.ini
+ADD custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
 
 VOLUME /var/www
 WORKDIR /var/www
