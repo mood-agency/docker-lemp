@@ -3,25 +3,36 @@ nginx:
   links:
     - phpfpm
   ports:
-    - "8080:80"
+    - "8081:80"
   volumes_from:
     - htdocs
 phpfpm:
   build: php-5.6-fpm-custom
+  environment:
+    DB_NAME: "wordpress"
+    DB_USER: "wordpress"
+    DB_PASSWORD: "wordpress"
+    WP_HOME: "http://localhost:8081"
+    WP_SITEURL: "http://localhost:8081"
+    WP_TITLE: "songdo"
+    WP_ADMIN_USER: "admin"
+    WP_ADMIN_PASSWORD: "12345678"
+    WP_ADMIN_EMAIL: "admin@mood.com.ve"
+    WP_INSTALL: "1"
   links:
     - db
   volumes_from:
     - htdocs
 db:
   image: mariadb
-  volumes:
+  volumes :
     - /var/lib/mysql
   environment:
-    MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-    MYSQL_DATABASE: "${MYSQL_DATABASE}"
-    MYSQL_USER: "${MYSQL_USER}"
-    MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    MYSQL_ROOT_PASSWORD: "worpress"
+    MYSQL_DATABASE: "wordpress"
+    MYSQL_USER: "wordpress"
+    MYSQL_PASSWORD: "wordpress"
 htdocs:
   image: busybox
   volumes:
-    - "./htdocs:/var/www/html"
+    - ./htdocs:/var/www/html

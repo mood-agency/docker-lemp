@@ -1,6 +1,6 @@
 <?php
 
-$db = mysqli_connect('db', 'root', 'change_this', 'mysql')
+$db = mysqli_connect('db', 'wordpress', 'wordpress', 'wordpress')
 	or die('Error: ' . mysqli_error());
 
 $query = 'SHOW DATABASES;';
